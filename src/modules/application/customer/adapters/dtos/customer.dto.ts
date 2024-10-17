@@ -1,4 +1,10 @@
-import { IsString, IsEmail, IsOptional, Matches, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  Matches,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class CreateCustomerDto {
   @IsString()
@@ -12,7 +18,9 @@ export class CreateCustomerDto {
 
   @IsString()
   @IsNotEmpty({ message: 'O número de celular não pode estar vazio' })
-  @Matches(/^\d{11}$/, { message: 'O número de celular precisa ter 11 dígitos' })
+  @Matches(/^\d{11}$/, {
+    message: 'O número de celular precisa ter 11 dígitos',
+  })
   phone: string;
 
   @IsEmail({}, { message: 'Email inválido' })
