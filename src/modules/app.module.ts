@@ -5,9 +5,10 @@ import LoggingInterceptor from '../interceptors/logging.interceptor';
 import openapiValidatorMiddleware from '../middlewares/openapi.middleware';
 import { ConfigurationModules } from './configuration';
 import { CustomerModule } from './application/customer/customer.module';
+import { DiaryModule } from './application/diary/diary.module';
 
 @Module({
-  imports: [...ConfigurationModules, CustomerModule],
+  imports: [...ConfigurationModules, CustomerModule, DiaryModule],
   providers: [
     { provide: APP_FILTER, useClass: OpenApiExceptionFilter },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },

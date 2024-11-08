@@ -5,4 +5,5 @@ export interface IFilterCustomerInput {
   email?: string;
   client_email?: string;
   searchBy?: string;
+  id?: number;
 }

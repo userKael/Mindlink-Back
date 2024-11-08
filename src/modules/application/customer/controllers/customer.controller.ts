@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query, Get } from '@nestjs/common';
+import { Controller, Post, Body, Query, Get, Delete, Param, Put } from '@nestjs/common';
 
 import { CustomerService } from '../services/Customer.service';
 import { CreateCustomerDto } from '../adapters/dtos/customer.dto';
@@ -30,5 +30,18 @@ export class CustomerController {
     );
     const response = new Paginated<any>(items, page, pageSize, total, sort);
     return response.items;
+  }
+
+  @Delete(':id')
+  async deleteCustomer(@Param('id') id: number): Promise<string> {
+    return this.customerService.deleteCustomer(id);
+  }
+
+  @Put(':id')
+  async updateCustomer(
+    @Param('id') id: number,
+    @Body() updateData: Partial<CreateCustomerDto>,
+  ): Promise<string> {
+    return this.customerService.updateCustomer(id, updateData);
   }
 }

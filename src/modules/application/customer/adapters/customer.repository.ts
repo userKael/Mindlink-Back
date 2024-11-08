@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationSort } from 'src/modules/common/paginated';
 import { IFilterCustomerInput } from '../controllers/entities/customer.interface';
+import { CreateCustomerDto } from './dtos/customer.dto';
 
 @Injectable()
 export class CustomerRepository {
@@ -53,6 +54,11 @@ export class CustomerRepository {
           client_email: filter.client_email,
         });
       }
+      if (filter.id) {
+        queryBuilder.andWhere('customer.id = :id', {
+          id: filter.id,
+        });
+      }
       if (filter.searchBy) {
         queryBuilder.andWhere(
           new Brackets((qb) => {
@@ -81,5 +87,17 @@ export class CustomerRepository {
       items,
       total,
     };
+  }
+
+  async delete(id: number) {
+    return this.repository.delete(id);
+  }
+
+  async update(id: number, updateData: Partial<CreateCustomerDto>) {
+    return this.repository.update(id, updateData);
+  }
+
+  async findOne(id: number): Promise<CustomerEntity | undefined> {
+    return this.repository.findOne({ where: { id } });
   }
 }
