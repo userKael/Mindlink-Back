@@ -1,8 +1,30 @@
-## mindlink-service
+# Mindlink-service
 
 ### Description
  It is built using NestJS, Typescript, MySQL.
-## Process
+# Screenshots 
+Screenshots of the application that communicates with this service
+## Home 
+![alt text](/imgs/home.png)
+
+
+
+### Marcar consulta 
+![alt text](/imgs/marcar.png)
+
+
+## Consultas marcadas
+![alt text](/imgs/marcadas.png)
+
+
+## Cadastrar paciente
+![alt text](/imgs/cadastrar_paciente.png)
+
+
+## Pacientes cadastrados
+![alt text](/imgs/pacientes.png)
+
+
 
 ## Dependencies
 
