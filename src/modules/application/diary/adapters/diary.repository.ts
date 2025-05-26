@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { DiaryEntity } from './diary.entity';
 import { format } from 'date-fns/format';
 
-
 @Injectable()
 export class DiaryRepository {
   constructor(
@@ -20,7 +19,7 @@ export class DiaryRepository {
   async findDiaryAvailable() {
     const today = new Date();
     const formattedToday = format(today, 'dd-MM-yyyy');
-  
+
     return this.repository.find({
       where: {
         date: Like(`${formattedToday}%`),
@@ -28,17 +27,17 @@ export class DiaryRepository {
       },
     });
   }
-  
+
   async findDiaryMarkWithCustomer() {
     const today = new Date();
     const formattedToday = format(today, 'dd-MM-yyyy');
-    
+
     return this.repository.find({
       where: {
         date: Like(`${formattedToday}%`),
         status: 'Marcado',
       },
-      relations: ['customer'], 
+      relations: ['customer'],
     });
   }
 }

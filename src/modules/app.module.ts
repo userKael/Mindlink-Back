@@ -6,9 +6,15 @@ import openapiValidatorMiddleware from '../middlewares/openapi.middleware';
 import { ConfigurationModules } from './configuration';
 import { CustomerModule } from './application/customer/customer.module';
 import { DiaryModule } from './application/diary/diary.module';
+import { PaymentModule } from './application/payment/payment.module';
 
 @Module({
-  imports: [...ConfigurationModules, CustomerModule, DiaryModule],
+  imports: [
+    ...ConfigurationModules,
+    CustomerModule,
+    DiaryModule,
+    PaymentModule,
+  ],
   providers: [
     { provide: APP_FILTER, useClass: OpenApiExceptionFilter },
     { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },

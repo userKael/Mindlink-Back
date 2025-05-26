@@ -12,12 +12,14 @@ export class DiaryService {
   ) {}
 
   async createDiary(diaryData: any): Promise<any> {
-    const customer = await this.customerRepository.findOne(diaryData.customerid);
+    const customer = await this.customerRepository.findOne(
+      diaryData.customerid,
+    );
     if (!customer) {
       throw new BusinessException('Selecione um paciente');
     }
 
-    const linkMeet = `https://meet.jit.si/${customer.email + diaryData.customerid}`
+    const linkMeet = `https://meet.jit.si/${customer.email + diaryData.customerid}`;
 
     const newDiaryData = { ...diaryData, link: linkMeet, customer };
 
@@ -26,29 +28,37 @@ export class DiaryService {
   }
 
   async listAvailable(): Promise<any> {
-
     const currentTime = new Date();
-    currentTime.setHours(currentTime.getHours() - 3); 
+    currentTime.setHours(currentTime.getHours() - 3);
 
     const startOfDay = new Date(currentTime);
-    startOfDay.setHours(8, 0, 0, 0); // Definir 08:00h como início do dia
+    startOfDay.setHours(8, 0, 0, 0);
 
     const endOfDay = new Date(currentTime);
-    endOfDay.setHours(21, 30, 0, 0); // Definir 21:30h como fim do dia
+    endOfDay.setHours(23, 30, 0, 0);
 
     let availableSlots = [];
-    for (let current = startOfDay; current <= endOfDay; current = addMinutes(current, 30)) {
+    for (
+      let current = startOfDay;
+      current <= endOfDay;
+      current = addMinutes(current, 30)
+    ) {
       availableSlots.push(format(current, 'dd-MM-yyyy HH:mm'));
     }
 
     const currentTimeString = format(currentTime, 'dd-MM-yyyy HH:mm');
     availableSlots = availableSlots.filter((slot) => slot > currentTimeString);
 
-    const scheduledAppointments = await this.diaryRepository.findDiaryAvailable();
+    const scheduledAppointments =
+      await this.diaryRepository.findDiaryAvailable();
 
-    const bookedSlots = scheduledAppointments.map((appointment) => appointment.date);
+    const bookedSlots = scheduledAppointments.map(
+      (appointment) => appointment.date,
+    );
 
-    const freeSlots = availableSlots.filter((slot) => !bookedSlots.includes(slot));
+    const freeSlots = availableSlots.filter(
+      (slot) => !bookedSlots.includes(slot),
+    );
 
     const result = freeSlots.map((slot) => ({
       customerName: '',
@@ -61,7 +71,6 @@ export class DiaryService {
     return result;
   }
 
-
   async listDiaryToday(): Promise<any> {
     const markToday = await this.diaryRepository.findDiaryMarkWithCustomer();
     const formattedResult = markToday.map((diary) => ({
@@ -72,7 +81,7 @@ export class DiaryService {
       status: diary.status,
       link: diary.link,
     }));
-    
+
     return formattedResult;
   }
 }

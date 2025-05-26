@@ -1,12 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CustomerRepository } from '../adapters/customer.repository';
-import { CustomerEntity } from '../adapters/customer.entity';
 import { CreateCustomerDto } from '../adapters/dtos/customer.dto';
 import { PaginationSort } from 'src/modules/common/paginated';
 import { IFilterCustomerInput } from '../controllers/entities/customer.interface';
-import { exceptions } from 'winston';
-import BusinessException, { BusinessError } from 'src/exceptions/business.exception';
+import BusinessException from 'src/exceptions/business.exception';
 
 @Injectable()
 export class CustomerService {
@@ -35,15 +32,18 @@ export class CustomerService {
   async deleteCustomer(id: number): Promise<string> {
     const result = await this.customerRepository.delete(id);
     if (result.affected === 0) {
-      throw new BusinessException ('Cliente não encontrado');
+      throw new BusinessException('Cliente não encontrado');
     }
     return 'Cliente excluído com sucesso';
   }
 
-  async updateCustomer(id: number, updateData: Partial<CreateCustomerDto>): Promise<string> {
+  async updateCustomer(
+    id: number,
+    updateData: Partial<CreateCustomerDto>,
+  ): Promise<string> {
     const result = await this.customerRepository.update(id, updateData);
     if (result.affected === 0) {
-      throw new BusinessException ('Cliente não encontrado');
+      throw new BusinessException('Cliente não encontrado');
     }
     return 'Cliente atualizado com sucesso';
   }

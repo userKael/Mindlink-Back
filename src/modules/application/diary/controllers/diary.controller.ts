@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { DiaryEntity } from '../adapters/diary.entity';
 import { DiaryService } from '../services/diary.service';
 
 @Controller('diary')
 export class DiaryController {
-    constructor(private readonly diaryService: DiaryService) {}
+  constructor(private readonly diaryService: DiaryService) {}
 
   @Get()
   async listMarkToday(): Promise<any> {
@@ -15,10 +14,9 @@ export class DiaryController {
   async markDiary(@Body() diaryData): Promise<any> {
     return this.diaryService.createDiary(diaryData);
   }
-  
 
   @Get('available')
-  async diaryAvailable(): Promise<any>{
+  async diaryAvailable(): Promise<any> {
     return this.diaryService.listAvailable();
   }
 }

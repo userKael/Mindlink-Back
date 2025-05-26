@@ -7,7 +7,6 @@ import { DiaryEntity } from './adapters/diary.entity';
 import { CustomerRepository } from '../customer/adapters/customer.repository';
 import { CustomerEntity } from '../customer/adapters/customer.entity';
 
-
 @Module({
   imports: [TypeOrmModule.forFeature([DiaryEntity, CustomerEntity])],
   controllers: [DiaryController],

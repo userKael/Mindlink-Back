@@ -2,33 +2,36 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  ManyToOne,
-  JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { CustomerEntity } from '../../customer/adapters/customer.entity';
 
-@Entity('diary')
-export class DiaryEntity {
+@Entity('payment')
+export class PaymentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   psychoEmail: string;
 
-  @Column()
-  date: string;
-
-  @Column()
-  status: 'Marcado' | 'Livre' | 'Confirmado';
-
-  @Column()
-  link: string;
-
   @ManyToOne(() => CustomerEntity)
   @JoinColumn({ name: 'customerid' })
   customer: CustomerEntity;
+
+  @Column()
+  amount: number;
+
+  @Column({ default: 'pending' })
+  status: 'pending' | 'paid' | 'cancelled';
+
+  @Column()
+  payment_link: string;
+
+  @Column({ nullable: true })
+  expires_at: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
