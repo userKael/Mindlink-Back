@@ -34,7 +34,7 @@ Screenshots of the application that communicates with this service
 ![alt text](/imgs/faturas_pendentes.png)
 
 # Demonstração em Vídeo
-[Assista ao vídeo de demonstração](/imgs/demonstracao.mkv)
+[Assista o video de demonstração](https://youtu.be/X_K3NakkPfM)
 
 ## Dependencies
 
