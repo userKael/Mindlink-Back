@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -11,6 +12,8 @@ import {
 import { Response } from 'express';
 import { PaymentService } from '../services/payment.service';
 import { InvoiceService } from '../services/invoice.service';
+import { CreatePaymentDto } from '../adapters/dtos/payment.dto';
+import { Public } from 'src/modules/configuration/auth/public.decorator';
 
 @Controller('payment')
 export class PaymentController {
@@ -20,8 +23,9 @@ export class PaymentController {
   ) {}
 
   @Post()
-  async createPayment(@Body() paymentData): Promise<any> {
-    return this.paymentService.createPayment(paymentData);
+  async createPayment(@Body() paymentData: CreatePaymentDto): Promise<any> {
+    await this.paymentService.createPayment(paymentData)
+    return 'Fatura criada com sucesso!'
   }
 
   @Get()
@@ -35,6 +39,7 @@ export class PaymentController {
   }
 
   @Get(':id/invoice')
+  @Public()
   async downloadInvoice(
     @Param('id', ParseIntPipe) id: number,
     @Res() res: Response,
@@ -54,5 +59,10 @@ export class PaymentController {
       }
       throw err;
     }
+  }
+
+  @Delete(':id')
+  async deletePayment(@Param('id') id: number): Promise<string> {
+    return this.paymentService.deletePayment(id);
   }
 }

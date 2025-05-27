@@ -12,7 +12,7 @@ export class PaymentService {
   ) {}
 
   async createPayment(dto: any): Promise<PaymentEntity> {
-    const customer = await this.customerRepository.findOne(dto.customer_id);
+    const customer = await this.customerRepository.findOne(dto.customerid);
     if (!customer) {
       throw new BusinessException('Selecione um paciente');
     }
@@ -20,7 +20,7 @@ export class PaymentService {
 
     const newPayment = {
       ...dto,
-      status: 'pending',
+      status: 'Pendente',
       payment_link: fakePaymentLink,
       expires_at: this.generateExpirationDate(),
       customer,
@@ -31,8 +31,28 @@ export class PaymentService {
     return payment;
   }
 
-  async getAllPayments(): Promise<PaymentEntity[]> {
-    return this.paymentRepository.findAllWithCustomer();
+  async getAllPayments(): Promise<any> {
+    const getPayment = await this.paymentRepository.findAllWithCustomer();
+
+    const formatDate = (date: Date) => {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    const transformedPayments = getPayment.map((payment) => ({
+      id: payment.id,
+      name: payment.customer.name,
+      email: payment.customer.email,
+      amount: payment.amount,
+      status: payment.status,
+      psychoEmail: payment.psychoEmail,
+      payment_link: payment.payment_link,
+      expires_at: formatDate(payment.expires_at),
+    }));
+    return transformedPayments;
   }
 
   private generateFakeLink(): string {
@@ -46,7 +66,36 @@ export class PaymentService {
     return date;
   }
 
-  async getPaidPayments(): Promise<PaymentEntity[]> {
-    return this.paymentRepository.findPaid();
+  async getPaidPayments(): Promise<any> {
+    const getPayment = await this.paymentRepository.findPaid();
+    const formatDate = (date: Date) => {
+      const d = new Date(date);
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const year = d.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
+
+    const transformedPayments = getPayment.map((payment) => ({
+      id: payment.id,
+      name: payment.customer.name,
+      email: payment.customer.email,
+      amount: payment.amount,
+      status: payment.status,
+      psychoEmail: payment.psychoEmail,
+      payment_link: payment.payment_link,
+      expires_at: formatDate(payment.expires_at),
+    }));
+
+    return transformedPayments;
+    
+  }
+
+  async deletePayment(id: number): Promise<string> {
+    const result = await this.paymentRepository.delete(id);
+    if (result.affected === 0) {
+      throw new BusinessException('Fatura não encontrada');
+    }
+    return 'Fatura excluído com sucesso';
   }
 }

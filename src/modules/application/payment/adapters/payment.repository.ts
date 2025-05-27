@@ -17,6 +17,7 @@ export class PaymentRepository {
   async findAllWithCustomer(): Promise<PaymentEntity[]> {
     return this.repository.find({
       relations: ['customer'],
+      where: { status: 'Pendente' },
       order: {
         createdAt: 'DESC',
       },
@@ -25,7 +26,7 @@ export class PaymentRepository {
 
   async findPaid(): Promise<PaymentEntity[]> {
     return this.repository.find({
-      where: { status: 'paid' },
+      where: { status: 'Pago' },
       relations: ['customer'],
       order: {
         createdAt: 'DESC',
@@ -38,5 +39,9 @@ export class PaymentRepository {
       where: { id },
       relations: ['customer'],
     });
+  }
+
+  async delete(id: number) {
+    return this.repository.delete(id);
   }
 }

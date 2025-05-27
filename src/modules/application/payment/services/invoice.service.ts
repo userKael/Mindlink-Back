@@ -52,7 +52,7 @@ export class InvoiceService {
     };
     doc
       .text(`ID da Fatura: ${payment.id}`)
-      .text(`Valor: R$ ${(payment.amount / 100).toFixed(2)}`)
+      .text(`Valor: R$ ${payment.amount}`)
       .text(`Status: ${payment.status}`)
       .text(`Data de Emissão: ${formatDate(payment.createdAt)}`)
       .text(`Data de Expiração: ${formatDate(payment.expires_at)}`)

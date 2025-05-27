@@ -25,7 +25,7 @@ export class PaymentEntity {
   amount: number;
 
   @Column({ default: 'pending' })
-  status: 'pending' | 'paid' | 'cancelled';
+  status: 'Pendente' | 'Pago' | 'Cancelado';
 
   @Column()
   payment_link: string;
