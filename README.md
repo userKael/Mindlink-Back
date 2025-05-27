@@ -24,7 +24,17 @@ Screenshots of the application that communicates with this service
 ## Pacientes cadastrados
 ![alt text](/imgs/pacientes.png)
 
+## Criar fatura
+![alt text](/imgs/criar_fatura.png)
 
+## Faturas pagas
+![alt text](/imgs/faturas_pagas.png)
+
+## Faturas pendentes
+![alt text](/imgs/faturas_pendentes.png)
+
+# Demonstração em Vídeo
+[Assista ao vídeo de demonstração](/imgs/demonstracao.mkv)
 
 ## Dependencies
 
